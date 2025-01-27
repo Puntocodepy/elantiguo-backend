@@ -23,6 +23,7 @@ class ProductResource extends JsonResource
             'measure_id'    => $this->measure_id,
             'measure_stock' => $this->measures->name,
             'comment'       => $this->comment,
+            'deposit'       => strtolower($this->deposit),
             'providers'     => ProductProviderCollection::collection($this->productProvider)
         ];
     }
