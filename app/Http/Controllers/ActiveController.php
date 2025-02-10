@@ -9,9 +9,15 @@ class ActiveController extends Controller
 {
     public function store(ActiveRequest $request)
     {
-        $invoice = Active::create($request->validated());
-        $invoice->detail()->createMany($request->input('detalleActivo'));
-        return response()->json(['message' => 'Factura creada exitosamente!', 'invoice' => $invoice], 201);
+        try {
+            $invoice = Active::create($request->validated());
+            $invoice->detail()->createMany($request->input('detalleActivo'));
+            return response()->json(['message' => 'Factura creada exitosamente!', 'invoice' => $invoice], 201);
+
+        } catch (\Exception $ex) {
+            $message = $ex->getCode() == 23000 ? "La factura $request->nro_factura ya existe" : "Error al cargar la factura";
+            return response()->json(['message' => $message], 500);
+        }
     }
 
     public function update(ActiveRequest $request, Active $invoice)
