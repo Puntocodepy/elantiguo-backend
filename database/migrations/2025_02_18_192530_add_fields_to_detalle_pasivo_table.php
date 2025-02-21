@@ -16,6 +16,8 @@ class AddFieldsToDetallePasivoTable extends Migration
         Schema::table('detalle_pasivo', function (Blueprint $table) {
             // 1. Campo 'tax' (enum)
             $table->enum('tax', ['10%', '5%', 'EXENTO'])->default('10%');
+            $table->enum('deposit', ['DEPOSITO', 'SALON'])->default('DEPOSITO')->comment('Para donde van ir destinado los materiales');
+
 
             // 2. Relación con 'measures' (measure_id)
             $table->unsignedBigInteger('measure_id')->nullable();

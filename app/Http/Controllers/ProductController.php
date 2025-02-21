@@ -113,15 +113,15 @@ class ProductController extends Controller
 
                 # Inserta o actualiza en el stock
                 $result = $this->product->firstOrNew(['name' => $params->producto]);
-                $result->measure_id = $params->measure_stock;
-                $result->stock      = $result->id ? $result->stock + $params->cantidad_stock : $params->cantidad_stock;
+                $result->measure_id = $params->measure_stock_id;
+                $result->stock      = $result->id ? $result->stock + $params->quantity_stock : $params->quantity_stock;
                 $result->deposit    = $params->deposit;
                 $result->save();
 
                 # Inserta o actualiza en el proveedor
                 $query = ['product_id' => $result->id, 'provider_id' => $request->idproveedor];
                 $provider             = $this->productProvider->firstOrNew($query);
-                $provider->measure_id = $params->measure_provider;
+                $provider->measure_id = $params->measure_id;
                 $provider->price      = $params->costo;
                 $provider->tax        = $params->tax;
                 $provider->save();
